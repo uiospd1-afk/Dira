@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ศูนย์ความรู้โรคซึมเศร้า (Depression Knowledge Hub)</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome สำหรับไอคอน -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --secondary: #f0fdf4;
+            --accent: #14b8a6;
+            --text-main: #1f2937;
+            --text-light: #4b5563;
+            --bg-body: #f8fafc;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+            background-color: var(--secondary);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        /* Main Content Sections */
+        .page-section {
+            display: none;
+            padding: 8rem 2rem 5rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero / Common Component Styles */
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(20, 184, 166, 0.05) 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-img img {
+            width: 100%;
+            border-radius: 15px;
+            object-fit: cover;
+            box-shadow: var(--shadow);
+            max-height: 300px;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Content Cards & Grids */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--primary);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Interactive Checklist (Symptoms) */
+        .checklist-box {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+        }
+
+        .check-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            margin-top: 4px;
+        }
+
+        /* References Section */
+        .references {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: #f1f5f9;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .references h4 {
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .references ul {
+            padding-left: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-main);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                padding: 1rem 2rem;
+                box-shadow: var(--shadow);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .hero-banner {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <div class="nav-container">
+            <div class="logo" onclick="switchPage('home')">
+                <i class="fa-solid fa-brain"></i> MindCare Hub
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a onclick="switchPage('home')" id="link-home" class="active">หน้าแรก</a></li>
+                <li><a onclick="switchPage('symptoms')" id="link-symptoms">อาการและการวินิจฉัย</a></li>
+                <li><a onclick="switchPage('causes')" id="link-causes">สาเหตุและปัจจัย</a></li>
+                <li><a onclick="switchPage('treatment')" id="link-treatment">แนวทางรักษา</a></li>
+                <li><a onclick="switchPage('support')" id="link-support">การดูแลและช่วยเหลือ</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- PAGE 1: HOME -->
+    <section id="home" class="page-section active">
+        <div class="hero-banner">
+            <div class="hero-text">
+                <h1>ทำความเข้าใจ "โรคซึมเศร้า" เพื่อก้าวผ่านไปด้วยกัน</h1>
+                <p>โรคซึมเศร้าไม่ใช่ความอ่อนแอ แต่เป็นความเจ็บป่วยทางจิตเวชที่สามารถรักษาให้หายได้ด้วยความเข้าใจ การแพทย์ที่ถูกต้อง และกำลังใจจากคนรอบข้าง</p>
+                <button class="btn" onclick="switchPage('symptoms')">เริ่มสำรวจข้อมูลอาการ</button>
+            </div>
+            <div class="hero-img">
+                <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80" alt="Mental Health Care">
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card" onclick="switchPage('symptoms')" style="cursor: pointer;">
+                <h3><i class="fa-solid fa-clipboard-list"></i> เช็กอาการเบื้องต้น</h3>
+                <p>เรียนรู้เกณฑ์การวินิจฉัย 9 ข้อตามหลักจิตแพทย์ เพื่อประเมินความเสี่ยงเบื้องต้นของตนเองหรือคนใกล้ชิด</p>
+            </div>
+            <div class="card" onclick="switchPage('treatment')" style="cursor: pointer;">
+                <h3><i class="fa-solid fa-kit-medical"></i> วิธีการรักษาที่ได้ผล</h3>
+                <p>ทำความเข้าใจแนวทางการบำบัดรักษา ทั้งการใช้ยาปรับสมดุลสารเคมีในสมอง และจิตบำบัด (CBT)</p>
+            </div>
+        </div>
+
+        <div class="references">
+            <h4>แหล่งอ้างอิงความรู้ทางการแพทย์:</h4>
+            <ul>
+                <li>คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี (RamaMental)</li>
+                <li>โรงพยาบาลเมด파크 (MedPark Hospital)</li>
+                <li>คลินิกสุขภาพจิตและจิตเวช (Morning Mind Clinic)</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- PAGE 2: SYMPTOMS -->
+    <section id="symptoms" class="page-section">
+        <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">อาการและเกณฑ์การวินิจฉัยโรคซึมเศร้า</h2>
+        <p style="color: var(--text-light); margin-bottom: 2rem;">แพทย์จะใช้เกณฑ์ประเมิน 9 ข้อ หากมีอาการเหล่านี้ **5 ข้อขึ้นไป** (โดยต้องมีข้อ 1 หรือข้อ 2 อย่างน้อย 1 ข้อ) และเป็นต่อเนื่องนาน **เกิน 2 สัปดาห์ขึ้นไป** จนส่งผลกระทบต่อชีวิตประจำวัน จะถือว่าเข้าข่ายความเสี่ยง</p>
+
+        <div class="checklist-box">
+            <div class="check-item"><input type="checkbox"> <div><strong>1. มีอารมณ์ซึมเศร้า หดหู่ หรือเบื่อหน่าย</strong> แทบทั้งวัน (ในเด็ก/วัยรุ่นอาจแสดงออกเป็นความหงุดหงิดง่าย)</div></div>
+            <div class="check-item"><input type="checkbox"> <div><strong>2. ความสนใจหรือความเพลิดเพลินในกิจกรรมต่างๆ ลดลงอย่างมาก</strong> ไม่สนุกกับสิ่งที่เคยชอบ</div></div>
+            <div class="check-item"><input type="checkbox"> <div><strong>3. น้ำหนักลดลงหรือเพิ่มขึ้นมากผิดปกติ</strong> (เปลี่ยนแปลงมากกว่า 5% ต่อเดือน) หรือเบื่ออาหาร/เจริญอาหารมาก</div></div>
+            <div class="check-item"><input type="checkbox"> <div><strong>4. มีปัญหาเรื่องการนอนหลับ</strong> เช่น นอนไม่หลับ หลับๆ ตื่นๆ หรือหลับมากเกินไป</div></div>
+            <div class="check-item"><input type="checkbox"> <div><strong>5. กระวนกระวาย อยู่ไม่สุข หรือเชื่องช้าลง</strong> จนคนรอบข้างสังเกตเห็นได้</div></div>
+            <div class="check-item"><input type="checkbox"> <div><strong>6. อ่อนเพลีย เหนื่อยล้า ไม่มีเรี่ยวแรง</strong> ทำกิจวัตรประจำวันลดลง</div></div>
+            <div class="check-item"><input type="checkbox"> <div><strong>7. รู้สึกตนเองไร้ค่า</strong> ตำหนิตัวเอง หรือรู้สึกผิดมากเกินไป</div></div>
+            <div class="check-item"><input type="checkbox"> <div><strong>8. สมาธิและความจำลดลง</strong> ใจลอย ตัดสินใจเรื่องต่างๆ ได้ยากขึ้น</div></div>
+            <div class="check-item"><input type="checkbox"> <div><strong>9. คิดเรื่องการตาย หรือมีความคิดอยากทำร้ายตัวเอง</strong></div></div>
+        </div>
+
+        <div class="references">
+            <h4>แหล่งอ้างอิง:</h4>
+            <p>ภาควิชาจิตเวชศาสตร์ คณะแพทยศาสตร์มหาวิทยาลัยมหิดล (Rama Channel)</p>
+        </div>
+    </section>
+
+    <!-- PAGE 3: CAUSES -->
+    <section id="symptoms" class="page-section">
+        <!-- Re-labeled via script/id logic below -->
+    </section>
+    
+    <!-- ปรับปรุง Section ID แยกแต่ละหน้า -->
+    <script>
+        // แทนที่การจัดการหน้าใน JS ด้านล่างให้ครอบคลุม
+    </script>
+
+    <!-- แก้ไขโครงสร้าง HTML หน้าที่ 3, 4, 5 ให้ถูกต้องสมบูรณ์ -->
+    
+    <!-- PAGE 3: CAUSES -->
+    <section id="causes" class="page-section">
+        <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">สาเหตุและปัจจัยกระตุ้นโรคซึมเศร้า</h2>
+        <p style="color: var(--text-light); margin-bottom: 2rem;">โรคซึมเศร้าไม่ได้เกิดจากความอ่อนแอทางจิตใจ แต่เกิดจากหลายปัจจัยร่วมกัน ทั้งทางชีวภาพ จิตวิทยา และสังคม</p>
+        
+        <div class="grid-2">
+            <div class="card">
+                <h3><i class="fa-solid fa-dna"></i> 1. ความผิดปกติทางชีวภาพและพันธุกรรม</h3>
+                <p>ความไม่สมดุลของสารสื่อประสาทในสมอง 3 ชนิด ได้แก่ ซีโรโตนิน (Serotonin), นอร์เอปิเนฟริน (Norepinephrine) และโดปามีน (Dopamine) รวมถึงประวัติคนในครอบครัวเคยป่วยเป็นโรคทางจิตเวช</p>
+            </div>
+            <div class="card">
+                <h3><i class="fa-solid fa-cloud-rain"></i> 2. เหตุการณ์กระทบกระเทือนจิตใจ</h3>
+                <p>การสูญเสียครั้งใหญ่ ความเครียดเรื้อรัง ปัญหาครอบครัว การหย่าร้าง การตกงาน หรือเผชิญภาวะกดดันรุนแรงในชีวิต</p>
+            </div>
+        </div>
+        <div class="references">
+            <h4>แหล่งอ้างอิง:</h4>
+            <p>โรงพยาบาลเมด파크 (MedPark Hospital) และคณะแพทยศาสตร์โรงพยาบาลรามาธิบดี</p>
+        </div>
+    </section>
+
+    <!-- PAGE 4: TREATMENT -->
+    <section id="treatment" class="page-section">
+        <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">แนวทางการรักษาทางการแพทย์</h2>
+        <p style="color: var(--text-light); margin-bottom: 2rem;">การรักษาโรคซึมเศร้ามีเป้าหมายเพื่อลดอาการ ปรับสมดุลสารเคมี และป้องกันการกลับมาเป็นซ้ำ ซึ่งมีวิธีหลักๆ ดังนี้</p>
+
+        <div class="grid-2">
+            <div class="card">
+                <h3><i class="fa-solid fa-pills"></i> 1. การรักษาด้วยยา (Antidepressants)</h3>
+                <p>ยาต้านเศร้าช่วยปรับสมดุลสารสื่อประสาทในสมอง ต้องรับประทานภายใต้คำแนะนำของจิตแพทย์อย่างเคร่งครัดต่อเนื่อง ห้ามหยุดยาเองเด็ดขาด</p>
+            </div>
+            <div class="card">
+                <h3><i class="fa-solid fa-comments"></i> 2. การทำจิตบำบัด (Psychotherapy)</h3>
+                <p>เช่น การบำบัดทางความคิดและพฤติกรรม (CBT) ช่วยให้ผู้ป่วยเรียนรู้การจัดการกับความคิดเชิงลบ ปรับมุมมอง และรับมือกับความเครียดได้อย่างมีประสิทธิภาพ</p>
+            </div>
+        </div>
+        <div class="references">
+            <h4>แหล่งอ้างอิง:</h4>
+            <p>Morning Mind Clinic & โรงพยาบาลพิษณุเวช</p>
+        </div>
+    </section>
+
+    <!-- PAGE 5: SUPPORT -->
+    <section id="support" class="page-section">
+        <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">การดูแลตนเองและการช่วยเหลือจากคนรอบข้าง</h2>
+        <p style="color: var(--text-light); margin-bottom: 2rem;">ความเข้าใจและการสนับสนุนจากคนรอบข้างคือพลังสำคัญที่จะช่วยให้ผู้ป่วยผ่านพ้นช่วงเวลาที่ยากลำบากไปได้</p>
+
+        <div class="grid-2">
+            <div class="card">
+                <h3><i class="fa-solid fa-heart-pulse"></i> ข้อควรปฏิบัติสำหรับคนรอบข้าง</h3>
+                <p>• รับฟังด้วยความเข้าใจอย่างลึกซึ้ง (Deep Listening) โดยไม่ตัดสิน<br>• หลีกเลี่ยงคำพูดเชิงซ้ำเติม เช่น "คิดไปเอง" หรือ "อ่อนแอ"<br>• ช่วยสังเกตการณ์ทานยาและดูแลกิจวัตรประจำวัน</p>
+            </div>
+            <div class="card">
+                <h3><i class="fa-solid fa-phone-volume"></i> ช่องทางขอความช่วยเหลือฉุกเฉิน</h3>
+                <p>• **สายด่วนสุขภาพจิต 1323** (โทรฟรีตลอด 24 ชั่วโมง)<br>• โรงพยาบาลจิตเวชหรือแผนกจิตเวชโรงพยาบาลใกล้บ้านทุกแห่ง</p>
+            </div>
+        </div>
+        <div class="references">
+            <h4>แหล่งอ้างอิง:</h4>
+            <p>โรงพยาบาลมนารมย์ (Manarom Hospital) และกรมสุขภาพจิต</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 MindCare Hub - เว็บไซต์ให้ความรู้สุขภาพจิตเพื่อสังคมไทย | ออกแบบตามมาตรฐาน Responsive UI</p>
+    </footer>
+
+    <!-- JavaScript สำหรับระบบเปลี่ยนหน้าและเมนูมือถือ -->
+    <script>
+        function switchPage(pageId) {
+            // ซ่อนทุกหน้า
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            // แสดงหน้าเป้าหมาย
+            const targetPage = document.getElementById(pageId);
+            if(targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // จัดการ Active Class ที่เมนู
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            const activeLink = document.getElementById('link-' + pageId);
+            if(activeLink) {
+                activeLink.classList.add('active');
+            }
+
+            // ปิดเมนูลอยในมือถือเมื่อเลือก
+            document.getElementById('navLinks').classList.remove('open');
+
+            // เลื่อนหน้าจอขึ้นบนสุดสมูทๆ
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('open');
+        }
+    </script>
+</body>
+  </html>
+  
